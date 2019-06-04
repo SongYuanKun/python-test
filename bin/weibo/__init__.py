@@ -1,6 +1,5 @@
 import urllib.request
 
-import pymysql
 from bs4 import BeautifulSoup
 
 from dao.OPMysql import OPMysql
