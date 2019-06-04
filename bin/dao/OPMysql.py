@@ -1,6 +1,7 @@
 import pymysql
 from DBUtils.PooledDB import PooledDB
-from Scripts.dao.MySqlProp import MySqlProp
+
+from dao.MySqlProp import MySqlProp
 
 
 class OPMysql(object):

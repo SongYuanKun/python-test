@@ -1,4 +1,4 @@
-from OPMysql import OPMysql
+from dao.OPMysql import OPMysql
 
 if __name__ == '__main__':
     # 申请资源
