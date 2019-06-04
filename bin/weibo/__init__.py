@@ -1,9 +1,9 @@
 import urllib.request
 
 import pymysql
-from DBUtils.PooledDB import PooledDB
-from dao.MySqlProp import MySqlProp
 from bs4 import BeautifulSoup
+
+from dao.OPMysql import OPMysql
 
 headers = {
     'Cookie': 'SINAGLOBAL=2078721877459.5728.1559567242749; wvr=6; '
@@ -20,43 +20,42 @@ headers = {
               'YF-Page-G0=761bd8cde5c9cef594414e10263abf81|1559638691|1559638691 '
 }
 
-req = urllib.request.Request('https://d.weibo.com/', None, headers)
-response = urllib.request.urlopen(req).read().decode("UTF-8")
-str = '{"ns":"pl.content.homeFeed.index","domid":"Pl_Core_NewMixFeed__3","css":["style/css/module/list/comb_WB_feed_profile.css?version=';
-index = response.find(str)
-html = response.replace(str, '')[index:]
-index = html.find(',"html":"')
-html = html.replace(',"html":"', '')
-html = html[index:-20].replace("\\\"", "").replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\/", "/")
+if __name__ == '__main__':
 
-html = BeautifulSoup(html, 'html5lib')
-itemList = html.find_all("div", attrs={"action-type": "feed_list_item"})
+    opm = OPMysql()
+    req = urllib.request.Request('https://d.weibo.com/', None, headers)
+    response = urllib.request.urlopen(req).read().decode("UTF-8")
+    strTag = '{"ns":"pl.content.homeFeed.index","domid":"Pl_Core_NewMixFeed__3",' \
+             '"css":["style/css/module/list/comb_WB_feed_profile.css?version='
+    index = response.find(strTag)
+    html = response.replace(strTag, '')[index:]
+    index = html.find(',"html":"')
+    html = html.replace(',"html":"', '')
+    html = html[index:-20].replace("\\\"", "").replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\/",
+                                                                                                                "/")
 
-prop = MySqlProp()
-pool = PooledDB(pymysql.connect, host=prop.host, port=3306, user=prop.user, password=prop.passWord, database=prop.db)
-print(len(itemList))
+    html = BeautifulSoup(html, 'html5lib')
+    itemList = html.find_all("div", attrs={"action-type": "feed_list_item"})
 
-for item in itemList:
-    id = item['mid']
-    avatar = item.find("img", class_="W_face_radius")['src']
-    userHome = item.find("div", class_="WB_info").find("a")['href']
-    userId = item.find("div", class_="WB_info").find("a")['usercard'].split("&")[0].split("=")[1]
-    createTime = item.find("div", class_="WB_from").find("a")['date']
-    device = item.find("div", class_="WB_from").find_all("a")
-    if len(device) == 2:
-        device = device[1].get_text()
-    else:
-        device = ''
-    content = item.find(attrs={'node-type': 'feed_list_content'}).get_text()
-    topic = item.find(attrs={'node-type': 'feed_list_content'}).find("a", class_="a_topic")
-    if topic is not None:
-        topic = topic['href']
-    else:
-        topic = ''
+    for item in itemList:
+        id = item['mid']
+        avatar = item.find("img", class_="W_face_radius")['src']
+        userHome = item.find("div", class_="WB_info").find("a")['href']
+        userId = item.find("div", class_="WB_info").find("a")['usercard'].split("&")[0].split("=")[1]
+        createTime = item.find("div", class_="WB_from").find("a")['date']
+        device = item.find("div", class_="WB_from").find_all("a")
+        if len(device) == 2:
+            device = device[1].get_text()
+        else:
+            device = ''
+        content = item.find(attrs={'node-type': 'feed_list_content'}).get_text()
+        topic = item.find(attrs={'node-type': 'feed_list_content'}).find("a", class_="a_topic")
+        if topic is not None:
+            topic = topic['href']
+        else:
+            topic = ''
 
-    insertSql = "insert into weibo(id,avatar,userHome,userId,content,topic,device,createTime) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-    conn = pool.connection();
-    cur = conn.cursor(cursor=pymysql.cursors.DictCursor)
-    cur.execute(insertSql, (id, avatar, userHome, userId, content, topic, device, createTime))
-    conn.commit()
-    print(id)
+        insertSql = "insert into weibo(id,avatar,userHome,userId,content,topic,device,createTime)" \
+                    " VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+        opm.op_insert(insertSql, (id, avatar, userHome, userId, content, topic, device, createTime))
+        print(id)
