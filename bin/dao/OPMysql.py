@@ -31,10 +31,10 @@ class OPMysql(object):
         return insert_num
 
     # 查询
-    def op_select(self, sql):
+    def op_select(self, sql, args):
         print(1)
         print('op_select', sql)
-        self.cur.execute(sql)  # 执行sql
+        self.cur.execute(sql, args)  # 执行sql
         select_res = self.cur.fetchone()  # 返回结果为字典
         print('op_select', select_res)
         print(2)
