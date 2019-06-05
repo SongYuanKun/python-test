@@ -1,3 +1,4 @@
+import logging
 import time
 from multiprocessing import Process
 
@@ -37,10 +38,15 @@ if __name__ == '__main__':
             query_sql = "select * from weibo where id=%s"
             select_result = opm.op_select(query_sql, id)
             if not select_result:
-                insertSql = "insert into weibo(id,avatar,userHome,userId,content,topic,device,createTime)" \
-                            " VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-                opm.op_insert(insertSql, (id, avatar, userHome, userId, content, topic, device, createTime))
+                try:
+                    insertSql = "insert into weibo(id,avatar,userHome,userId,content,topic,device,createTime)" \
+                                " VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+                    opm.op_insert(insertSql, (id, avatar, userHome, userId, content, topic, device, createTime))
+                except Exception as e:
+                    logging.error(e)
+                    logging.error(id, avatar, userHome, userId, content, topic, device, createTime)
             p = Process(target=UserReptile.UserReptile.run(userHome))
             p.start()
 
         time.sleep(10)
+        logging.info("sleep:10")
