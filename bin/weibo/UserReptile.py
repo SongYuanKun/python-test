@@ -29,7 +29,7 @@ class UserReptile(object):
                 device = device[1].get_text()
             else:
                 device = ''
-            content = item.find(attrs={'node-type': 'feed_list_content'}).get_text()
+            content = item.find(attrs={'node-type': 'feed_list_content'}).get_text().strip()
             topic = item.find(attrs={'node-type': 'feed_list_content'}).find("a", class_="a_topic")
             if topic is not None:
                 topic = topic['href']
