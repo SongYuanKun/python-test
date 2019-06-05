@@ -11,8 +11,11 @@ class UserReptile(object):
 
     @staticmethod
     def run(homepage):
+        logging.info('homepage=' + homepage)
         opm = OPMysql()
         html = QueryWeiBo.query_wei_bo(homepage)
+        if not html:
+            return
         html = BeautifulSoup(html, 'html5lib')
         item_list = html.find_all("div", attrs={"action-type": "feed_list_item"})
         for item in item_list:
@@ -41,8 +44,7 @@ class UserReptile(object):
                 try:
                     opm.op_insert(insert_sql, (id, avatar, userHome, userId, content, topic, device, createTime))
                 except Exception as e:
-                    logging.error(e)
-                    logging.error(id, avatar, userHome, userId, content, topic, device, createTime)
+                    logging.error(e.__repr__())
 
 
 if __name__ == '__main__':

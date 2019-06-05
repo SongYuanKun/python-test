@@ -1,3 +1,4 @@
+import logging
 import re
 import urllib.request
 
@@ -13,8 +14,12 @@ class QueryWeiBo(object):
     @staticmethod
     def query_wei_bo(host):
         req = urllib.request.Request(host, None, headers=headers)
-        response = urllib.request.urlopen(req).read().decode("UTF-8")
-        response = BeautifulSoup(response, 'html5lib')
+        try:
+            response = urllib.request.urlopen(req).read().decode("UTF-8")
+            response = BeautifulSoup(response, 'html5lib')
+        except Exception as e:
+            logging.error(e)
+            return None
         str_tag = '{"ns":"pl.content.homeFeed.index'
         html = response.find_all(string=re.compile(str_tag))
         result = ''

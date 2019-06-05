@@ -8,6 +8,8 @@ from dao.OPMysql import OPMysql
 from weibo import UserReptile
 from weibo.QueryWeiBo import QueryWeiBo
 
+logging.basicConfig(level=logging.INFO)
+
 if __name__ == '__main__':
 
     opm = OPMysql()
@@ -15,6 +17,8 @@ if __name__ == '__main__':
 
     while True:
         html = QueryWeiBo.query_wei_bo(url)
+        if not html:
+            continue
         html = BeautifulSoup(html, 'html5lib')
         itemList = html.find_all("div", attrs={"action-type": "feed_list_item"})
 
@@ -29,7 +33,7 @@ if __name__ == '__main__':
                 device = device[1].get_text()
             else:
                 device = ''
-            content = item.find(attrs={'node-type': 'feed_list_content'}).get_text()
+            content = item.find(attrs={'node-type': 'feed_list_content'}).get_text().strip()
             topic = item.find(attrs={'node-type': 'feed_list_content'}).find("a", class_="a_topic")
             if topic is not None:
                 topic = topic['href']
@@ -44,7 +48,6 @@ if __name__ == '__main__':
                     opm.op_insert(insert_sql, (id, avatar, userHome, userId, content, topic, device, createTime))
                 except Exception as e:
                     logging.error(e)
-                    logging.error(id, avatar, userHome, userId, content, topic, device, createTime)
             p = Process(target=UserReptile.UserReptile.run(userHome))
             p.start()
 
