@@ -38,10 +38,10 @@ if __name__ == '__main__':
             query_sql = "select * from weibo where id=%s"
             select_result = opm.op_select(query_sql, id)
             if not select_result:
+                insert_sql = "insert into weibo(id,avatar,userHome,userId,content,topic,device,createTime)" \
+                             " VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
                 try:
-                    insertSql = "insert into weibo(id,avatar,userHome,userId,content,topic,device,createTime)" \
-                                " VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-                    opm.op_insert(insertSql, (id, avatar, userHome, userId, content, topic, device, createTime))
+                    opm.op_insert(insert_sql, (id, avatar, userHome, userId, content, topic, device, createTime))
                 except Exception as e:
                     logging.error(e)
                     logging.error(id, avatar, userHome, userId, content, topic, device, createTime)

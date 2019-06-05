@@ -1,4 +1,5 @@
 # 子进程要执行的代码
+import logging
 
 from bs4 import BeautifulSoup
 
@@ -37,7 +38,11 @@ class UserReptile(object):
             if not select_result:
                 insert_sql = "insert into weibo(id,avatar,userHome,userId,content,topic,device,createTime)" \
                              " VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-                opm.op_insert(insert_sql, (id, avatar, userHome, userId, content, topic, device, createTime))
+                try:
+                    opm.op_insert(insert_sql, (id, avatar, userHome, userId, content, topic, device, createTime))
+                except Exception as e:
+                    logging.error(e)
+                    logging.error(id, avatar, userHome, userId, content, topic, device, createTime)
 
 
 if __name__ == '__main__':
