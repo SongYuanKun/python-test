@@ -20,7 +20,7 @@ class UserReptile(object):
         item_list = html.find_all("div", attrs={"action-type": "feed_list_item"})
         for item in item_list:
             id = item['diss-data'].split('=')[1]
-            avatar = item.find("img", lambda tag: tag.has_attr('src'), class_="W_face_radius/")['src']
+            avatar = item.find("img", lambda tag: tag.has_attr('src'), class_="W_face_radius")['src']
             userHome = item.find("div", class_="WB_info").find("a")['href']
             userId = item.find("div", class_="WB_info").find("a")['usercard'].split("&")[0].split("=")[1]
             createTime = item.find("div", class_="WB_from").find("a")['date']

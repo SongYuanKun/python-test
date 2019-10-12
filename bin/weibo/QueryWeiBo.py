@@ -5,7 +5,11 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 headers = {
-    'Cookie': 'SINAGLOBAL=2078721877459.5728.1559567242749; wvr=6; SSOLoginState=1559616971; _s_tentry=login.sina.com.cn; UOR=,,login.sina.com.cn; Apache=6054902381065.152.1559616976820; ULV=1559616976827:2:2:2:6054902381065.152.1559616976820:1559567242756; YF-Page-G0=761bd8cde5c9cef594414e10263abf81|1559638878|1559638691; SCF=Akrwmn7zAkMkrSsx3CPh5CDHZCpghGBbokghT8-Cb_e6h1DL1lW1HS3M3lyi2VPdWXHn45CA1tkMTfT69TWi6a0.; SUB=_2A25x_LAPDeRhGeNO7FoZ9CbJyDiIHXVSi6bHrDV8PUJbmtAKLXXlkW9NTsEfV5vyQBojZx6sF7hCiuJSoG8Lb3Bi; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9W56FTYyHNeazSVoGRzuyNLL5JpX5K-hUgL.Fo-7S0nRShnfe0B2dJLoIpRLxK.L1-zLB-2LxKBLBo.L12zLxKnL1hnL1-H0IN.t; SUHB=0mxUV9efmcWC8Q; ALF=1591342045; TC-Page-G0=153ff31dae1cf71cc65e7e399bfce283|1559806052|1559806044'
+    'Cookie': 'SINAGLOBAL=2078721877459.5728.1559567242749; UOR=,,login.sina.com.cn; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9W56FTYyHNeazSVoGRzuyNLL5JpX5KMhUgL.Fo-7S0nRShnfe0B2dJLoIpRLxK.L1-zLB-2LxKBLBo.L12zLxKnL1hnL1-H0IN.t; ALF=1591756369; SSOLoginState=1560220369; SCF=Akrwmn7zAkMkrSsx3CPh5CDHZCpghGBbokghT8-Cb_e6bPXRSAb4tp16gPGUJ5pOaAhyXKbMBJeKhFn48CjrvgA.; SUB=_2A25x-2KCDeRhGeNO7FoZ9CbJyDiIHXVTcdNKrDV8PUNbmtBeLVamkW9NTsEfVwWe7pv3HDTLIFkXx64u4vbvZfxf; SUHB=0oUoPW4u4aTh8k; TC-Page-G0=45685168db6903150ce64a1b7437dbbb|1560220372|1560220368; wb_view_log_5078848534=1920*10801; _s_tentry=login.sina.com.cn; Apache=3794245684225.5303.1560220392288; ULV=1560220392296:3:3:3:3794245684225.5303.1560220392288:1559616976827; webim_unReadCount=%7B%22time%22%3A1560220403915%2C%22dm_pub_total%22%3A0%2C%22chat_group_pc%22%3A0%2C%22allcountNum%22%3A0%2C%22msgbox%22%3A2%7D',
+    'Host': 'd.weibo.com',
+    'Referer': 'https://d.weibo.com/',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'
 }
 
 
